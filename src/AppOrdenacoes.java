@@ -3,13 +3,23 @@ import java.util.Random;
 public class AppOrdenacoes {
     public static void main(String[] args) {
         Integer[] vetor = gerarVetor(50);
-        Bubblesort<Integer>  ordenador = new Bubblesort<Integer>();
+        IOrdenador<Integer>  ordenador = new Bubblesort<Integer>();
         Integer[] vetorOrdenado = ordenador.ordenar(vetor);
 
+        System.out.println("Bubblesort:");
         System.out.println(vetor.length);
         System.out.println(ordenador.getComparacoes());
         System.out.println(ordenador.getMovimentacoes());
         System.out.println(ordenador.geTempoOrdenacao());
+
+        System.out.println("Inserção:");
+        ordenador = new Insercao<Integer>();
+        ordenador.ordenar(vetor);
+        System.out.println(vetor.length);
+        System.out.println(ordenador.getComparacoes());
+        System.out.println(ordenador.getMovimentacoes());
+        System.out.println(ordenador.geTempoOrdenacao());
+
 
     }
 
