@@ -63,12 +63,9 @@ return comparacoes;
 public int getMovimentacoes() {
 return movimentacoes;
 }
-public double getTempoOrdenacao() {
-return Duration.between(inicio, termino).toMillis();
-}
+
 @Override
 public double geTempoOrdenacao() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'geTempoOrdenacao'");
+    return Duration.between(inicio, termino).toMillis();
 }
 }

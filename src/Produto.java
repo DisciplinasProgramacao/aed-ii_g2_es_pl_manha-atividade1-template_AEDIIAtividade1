@@ -55,6 +55,10 @@ public abstract class Produto implements Comparable<Produto> {
 
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
     /**
      * Construtor completo. Os valores default em caso de erro são:
      * "Produto sem descrição", R$0.01, 1 unidade, 0 unidades 

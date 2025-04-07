@@ -3,4 +3,5 @@ public interface IOrdenador<T extends Comparable<T>> {
     public long getComparacoes();
     public int getMovimentacoes();
     public double geTempoOrdenacao();
+    
 }

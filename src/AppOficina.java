@@ -88,7 +88,8 @@ public class AppOficina {
     static int exibirMenuOrdenadores() {
         cabecalho();
         System.out.println("1 - Bolha");
-        System.out.println("2 - Inserção");     
+        System.out.println("2 - Inserção"); 
+         System.out.println("3 - Merge");     
         System.out.println("0 - Finalizar");
        
         return lerNumero("Digite sua opção", Integer.class);
@@ -131,8 +132,26 @@ public class AppOficina {
         }
         return localizado;
     }
-
-    private static void mostrarProduto(Produto produto) {
+    static Produto localizarProdutoDiscricao() {
+        cabecalho();
+        System.out.println("Localizando um produto por descrição");
+        String descricao = lerTexto ("Digite a Descrição").toLowecase();
+                Produto localizado = null;
+                
+                for (int i = 0; i < quantProdutos && localizado == null; i++) {
+                    if (produtos[i].getDescricao().toLowerCase().contains(descricao))
+                        localizado = produtos[i];
+                }
+                return localizado;
+            }
+        
+        
+            private static Object lerTexto(String string) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'lerTexto'");
+            }
+        
+            private static void mostrarProduto(Produto produto) {
         cabecalho();
         String mensagem = "Dados inválidos";
         
@@ -158,7 +177,8 @@ public class AppOficina {
     static int exibirMenuCriterioOrdenacao() {
         cabecalho();
         System.out.println("1 - Padrão");
-        System.out.println("2 - Ordenar por Valor");     
+        System.out.println("2 - Ordenar por Valor");  
+        System.out.println("3 - Ordenar por Valor, com desempate alfabético");        
         System.out.println("0 - Finalizar");
        
         return lerNumero("Digite sua opção", Integer.class);
@@ -173,16 +193,18 @@ public class AppOficina {
 
         switch (opcao) {
             case 1 -> ordenador = new Bubblesort<>();
-            case 2 -> ordenador = new InsertSort<>();
+            case 2 -> ordenador = new Insercao<>();
+            case 3 -> ordenador = new Mergesort<>();
         }
         switch (ordenacao) {
             case 1 -> comp = Produto::compareTo;
             case 2 -> comp = new ComparadorPorValor();
+            case 3 -> comp = new ComparadorValorDesempateAlfabetico();
         }
 
         if(ordenador!=null){
-            produtos = ordenador.ordenar(produtos, comp);        
-            System.out.println("Tempo gasto: "+ordenador.getTempoOrdenacao()+" ms.");
+            produtos = ordenador.ordenar(produtos);        
+            System.out.println("Tempo gasto: "+ordenador.geTempoOrdenacao()+" ms.");
         }
         ordenador = null;
     }

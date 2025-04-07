@@ -20,6 +20,14 @@ public class AppOrdenacoes {
         System.out.println(ordenador.getMovimentacoes());
         System.out.println(ordenador.geTempoOrdenacao());
 
+        System.out.println("Merge:");
+        ordenador = new Mergesort<Integer>();
+        ordenador.ordenar(vetor);
+        System.out.println(vetor.length);
+        System.out.println(ordenador.getComparacoes());
+        System.out.println(ordenador.getMovimentacoes());
+        System.out.println(ordenador.geTempoOrdenacao());
+
 
     }
 
