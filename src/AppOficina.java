@@ -119,6 +119,53 @@ public class AppOficina {
         return dadosCarregados;
     }
 
+    static Produto[] carregarProdutosPorCodigo(String nomeArquivo){
+        Scanner dados;
+        Produto[] dadosCarregados;
+        try{
+            dados = new Scanner(new File(nomeArquivo));
+            int tamanho = Integer.parseInt(dados.nextLine());
+            
+            dadosCarregados = new Produto[tamanho];
+            while (dados.hasNextLine()) {
+                Produto novoProduto = Produto.criarDoTexto(dados.nextLine());
+                dadosCarregados[quantProdutos] = novoProduto;
+                quantProdutos++;
+            }
+            dados.close();
+        }catch (FileNotFoundException fex){
+            System.out.println("Arquivo não encontrado. Produtos não carregados");
+            dadosCarregados = null;
+        }
+        IOrdenador ordenador = new Bubblesort<>();
+        ordenador.ordenar(dadosCarregados);
+
+        return dadosCarregados;
+    }
+
+    static Produto[] carregarProdutosPorDescricao(String nomeArquivo){
+        Scanner dados;
+        Produto[] dadosCarregados;
+        try{
+            dados = new Scanner(new File(nomeArquivo));
+            int tamanho = Integer.parseInt(dados.nextLine());
+            
+            dadosCarregados = new Produto[tamanho];
+            while (dados.hasNextLine()) {
+                Produto novoProduto = Produto.criarDoTexto(dados.nextLine());
+                dadosCarregados[quantProdutos] = novoProduto;
+                quantProdutos++;
+            }
+            dados.close();
+        }catch (FileNotFoundException fex){
+            System.out.println("Arquivo não encontrado. Produtos não carregados");
+            dadosCarregados = null;
+        }
+        IOrdenador<Produto> ordenador = new Bubblesort<>();
+        ordenador.ordenar(dadosCarregados, Produto::compareTo);
+        return dadosCarregados;
+    }
+
 
     static Produto localizarProduto() {
         cabecalho();
@@ -135,7 +182,7 @@ public class AppOficina {
     static Produto localizarProdutoDiscricao() {
         cabecalho();
         System.out.println("Localizando um produto por descrição");
-        String descricao = lerTexto ("Digite a Descrição").toLowecase();
+        String descricao = lerTexto ("Digite a Descrição").toLowerCase();
                 Produto localizado = null;
                 
                 for (int i = 0; i < quantProdutos && localizado == null; i++) {
@@ -146,9 +193,9 @@ public class AppOficina {
             }
         
         
-            private static Object lerTexto(String string) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'lerTexto'");
+            private static String lerTexto(String string) {
+                System.out.println(string);
+                return teclado.nextLine();
             }
         
             private static void mostrarProduto(Produto produto) {
@@ -240,6 +287,7 @@ public class AppOficina {
             opcao = exibirMenuPrincipal();
             switch (opcao) {
                 case 1 -> mostrarProduto(localizarProduto());
+                case 6 -> mostrarProduto(localizarProdutoDiscricao());
                 case 2 -> filtrarPorPrecoMaximo();
                 case 3 -> ordenarProdutos();
                 case 4 -> embaralharProdutos();
