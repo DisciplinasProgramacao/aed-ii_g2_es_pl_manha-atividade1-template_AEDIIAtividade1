@@ -32,7 +32,6 @@ public class App {
     static Random aleatorio = new Random(42);
     static long operacoes;
     static double nanoToMilli = 1.0/1_000_000;
-    static double duracao;
 
     /**
      * Código de teste 1. Este método...
@@ -56,7 +55,6 @@ public class App {
      */
     static int codigo2(int[] vetor) {
         int contador = 0;
-        operacoes = 0;
         for (int k = (vetor.length - 1); k > 0; k /= 2) {
             for (int i = 0; i <= k; i++) {
                 contador++;
@@ -76,7 +74,6 @@ public class App {
         for (int i = 0; i < vetor.length - 1; i++) {
             int menor = i;
             for (int j = i + 1; j < vetor.length; j++) {
-                operacoes++;
                 if (vetor[j] < vetor[menor])
                     menor = j;
             }
@@ -92,15 +89,13 @@ public class App {
      * @return Um inteiro que significa...
      */
     static int codigo4(int n) {
-        if (n <= 2){
+        if (n <= 2) {
             operacoes++;
             return 1;
-        }
-        else{
+        } else {
             operacoes += 2;
-            return codigo4(n - 1) + codigo4(n - 2);
-        }
-
+                return codigo4(n - 1) + codigo4(n - 2);
+            }
     }
 
     /**
@@ -111,26 +106,28 @@ public class App {
     static int[] gerarVetor(int tamanho){
         int[] vetor = new int[tamanho];
         for (int i = 0; i < tamanho; i++) {
-            vetor[i] = aleatorio.nextInt(1, tamanho/2);
+            vetor[i] = aleatorio.nextInt(tamanho/2) + 1;
         }
         return vetor;
+        
     }
-
-    public static void marcarTempo(int[] vetor){
+    public static double marcarTempo(int[] vetor){
         long inicio = System.nanoTime();
-        codigo1(vetor);
-        duracao = (System.nanoTime()-inicio) * nanoToMilli;
+            codigo1(vetor);
+        double duracao = (System.nanoTime() - inicio)/nanoToMilli;
+                return duracao;
     }
 
-    public static String executarTeste(int[] vetor){
-        marcarTempo(vetor);
-        return String.format("Tamanho: %,2d | Operações: %,2d | Tempo: %,2f ms", vetor.length, operacoes, duracao);
-    } 
 
+    public static String executarTeste(int[] vetor) {
+        codigo1(vetor);
+        Object duracao;
+                return String.format("TAMANHO %d | Operações: %d | Tempo: %.2f ms", vetor.length, operacoes, duracao);
+    }
     public static void main(String[] args) {
-        int[] tamanhosTeste = tamanhosTesteMedio;
-        for(int i = 0; i < tamanhosTeste.length; i++){
-            int[] vetorDados = gerarVetor(tamanhosTeste[i]);
+        int[] tamanhoTeste = tamanhosTesteGrande;
+        for (int i = 0; i < tamanhoTeste.length; i++){
+            int[] vetorDados = gerarVetor(tamanhoTeste[i]);
             System.out.println(executarTeste(vetorDados));
         }
     }
