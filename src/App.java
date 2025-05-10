@@ -40,7 +40,9 @@ public class App {
      */
     static int codigo1(int[] vetor) {
         int resposta = 0;
+        operacoes = 0;
         for (int i = 0; i < vetor.length; i += 2) {
+            operacoes += 4;
             resposta += vetor[i]%2;
         }
         return resposta;
@@ -59,6 +61,7 @@ public class App {
             }
 
         }
+        operacoes = contador;
         return contador;
     }
 
@@ -67,6 +70,7 @@ public class App {
      * @param vetor Vetor com dados para teste.
      */
     static void codigo3(int[] vetor) {
+        operacoes = 0;
         for (int i = 0; i < vetor.length - 1; i++) {
             int menor = i;
             for (int j = i + 1; j < vetor.length; j++) {
@@ -85,10 +89,13 @@ public class App {
      * @return Um inteiro que significa...
      */
     static int codigo4(int n) {
-        if (n <= 2)
+        if (n <= 2) {
+            operacoes++;
             return 1;
-        else
-            return codigo4(n - 1) + codigo4(n - 2);
+        } else {
+            operacoes += 2;
+                return codigo4(n - 1) + codigo4(n - 2);
+            }
     }
 
     /**
@@ -99,12 +106,29 @@ public class App {
     static int[] gerarVetor(int tamanho){
         int[] vetor = new int[tamanho];
         for (int i = 0; i < tamanho; i++) {
-            vetor[i] = aleatorio.nextInt(1, tamanho/2);
+            vetor[i] = aleatorio.nextInt(tamanho/2) + 1;
         }
         return vetor;
         
     }
-    public static void main(String[] args) {
-        
+    public static double marcarTempo(int[] vetor){
+        long inicio = System.nanoTime();
+            codigo1(vetor);
+        double duracao = (System.nanoTime() - inicio)/nanoToMilli;
+                return duracao;
     }
-}
+
+
+    public static String executarTeste(int[] vetor) {
+        codigo1(vetor);
+        Object duracao = null;
+                return String.format("TAMANHO %d | Operações: %d | Tempo: %.2f ms", vetor.length, operacoes, duracao);
+    }
+    public static void main(String[] args) {
+        int[] tamanhoTeste = tamanhosTesteGrande;
+        for (int i = 0; i < tamanhoTeste.length; i++){
+            int[] vetorDados = gerarVetor(tamanhoTeste[i]);
+            System.out.println(executarTeste(vetorDados));
+        }
+    }}
+
