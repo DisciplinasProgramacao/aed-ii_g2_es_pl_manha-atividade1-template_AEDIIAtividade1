@@ -32,29 +32,34 @@ public class App {
     static Random aleatorio = new Random(42);
     static long operacoes;
     static double nanoToMilli = 1.0/1_000_000;
+    static double duracao;
 
     /**
-     * Código de teste 1. Este método...
+     * Código de teste 1. Este método conta o numero de números impares em posições pares do vetor
      * @param vetor Vetor com dados para teste.
      * @return Uma resposta que significa....
      */
     static int codigo1(int[] vetor) {
         int resposta = 0;
+        operacoes = 0;
         for (int i = 0; i < vetor.length; i += 2) {
             resposta += vetor[i]%2;
+            operacoes += 4;
         }
         return resposta;
     }
 
     /**
-     * Código de teste 2. Este método...
+     * Código de teste 2. Este método soma todos os valores dos locais dos logaritimos 
      * @param vetor Vetor com dados para teste.
      * @return Uma resposta que significa....
      */
     static int codigo2(int[] vetor) {
+        operacoes = 0;
         int contador = 0;
         for (int k = (vetor.length - 1); k > 0; k /= 2) {
             for (int i = 0; i <= k; i++) {
+                operacoes++;
                 contador++;
             }
 
@@ -63,13 +68,15 @@ public class App {
     }
 
     /**
-     * Código de teste 3. Este método...
+     * Código de teste 3. Este método ordena de menor para maior
      * @param vetor Vetor com dados para teste.
      */
     static void codigo3(int[] vetor) {
+        operacoes = 0;
         for (int i = 0; i < vetor.length - 1; i++) {
             int menor = i;
             for (int j = i + 1; j < vetor.length; j++) {
+                operacoes++;
                 if (vetor[j] < vetor[menor])
                     menor = j;
             }
@@ -85,10 +92,14 @@ public class App {
      * @return Um inteiro que significa...
      */
     static int codigo4(int n) {
-        if (n <= 2)
+        if (n <= 2){
+            operacoes++;
             return 1;
-        else
+        }
+        else{
+            operacoes += 2;
             return codigo4(n - 1) + codigo4(n - 2);
+        }
     }
 
     /**
@@ -104,7 +115,24 @@ public class App {
         return vetor;
         
     }
+
+    public static void marcarTempo(int[]vetor){
+    long inicio = System.nanoTime();
+    codigo2(vetor);
+    duracao = (System.nanoTime() - inicio) * nanoToMilli;
+    }
+
+    public static String executarTeste(int[] vetor){
+        marcarTempo(vetor);
+        return String.format("Tamanho: %2d | Operações: %2d | Tempo: %2f \n", vetor.length, operacoes, duracao);
+
+    }
     public static void main(String[] args) {
-        
+        int[] tamanhosTeste = tamanhosTesteGrande;
+        for(int i =0; i< tamanhosTeste.length; i++){
+            int[] vetorDados = gerarVetor(tamanhosTeste[i]);
+            System.out.println(executarTeste(vetorDados));
+        }
+
     }
 }
